@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LandingPage from "./landig_page";
+// import LandingPage from "./landig_page";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import HomePage from './homepage';
 import AboutPage from './aboutpage';
@@ -12,7 +12,7 @@ import USSDInterface from "./ussd_interface";
 
 function App() {
   const [who_is_the_user, set_who_is_the_user] = useState("");
-  const [signin_up, set_signin_up] = useState("");
+  // const [signin_up, set_signin_up] = useState("");
 
   return <>
 
