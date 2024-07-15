@@ -13,61 +13,67 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
   const [schools, setSchools] = useState([]);
   const [regions, setRegions] = useState([]);
   const [regionId, setRegionId] = useState("");
-  const [isloading,setIsloading] = useState(false);
+  // const [isloading, setIsloading] = useState(false);
+  let region_id_filter = 0;
 
-  useEffect(() => {
-    const fetchRegions = async () => {
-      setIsloading(true);
-      try {
-        let { data: region_data, error } = await supabase
-          .from("Region_Table")
-          .select("*");
+// Fetch regions only once when the 'region_id_filter' changes
+useEffect(() => {
+  const fetchRegions = async () => {
+    try {
+      let { data: region_data, error } = await supabase
+        .from("Region_Table")
+        .select("*");
 
-        if (error) {
-          console.error("Error fetching Regions:", error);
-        } else {
-          setRegions(region_data);
-        }
-      } catch (error) {
+      if (error) {
         console.error("Error fetching Regions:", error);
+      } else {
+        setRegions(region_data);
       }
-      finally{
-        setIsloading(false);
-      }
-    };
-    fetchRegions();
-    console.log("this is the region id");
-  }, [who_is_the_user]);
-
-  let region_id = regionId.split(" ")[1];
-  console.log(region_id);
-  useEffect(() => {
-    setIsloading(true)
-    const fetchSchools = async () => {
-      try {
-        const { data: school_data, error } = await supabase
-          .from("School_Registration_Table")
-          .select("*")
-          .ilike("region_id",`%${region_id}%`);
-
-        if (error) {
-          console.error("Error fetching schools:", error);
-        } else {
-          console.log("this is the school data",school_data)
-          setSchools(school_data);
-        }
-      } catch (error) {
-        console.error("Error fetching schools:", error);
-      }
-      finally{
-        setIsloading(false)
-      }
-    };
-
-    if (who_is_the_user !== "Admin" && who_is_the_user !== "School") {
-      fetchSchools();
+    } catch (error) {
+      console.error("Error fetching Regions:", error);
     }
-  }, [who_is_the_user]);
+  };
+
+  fetchRegions();
+}, [region_id_filter]);
+
+let region_id = regionId.split(" ")[1];
+console.log(region_id);
+region_id_filter = parseInt(region_id);
+console.log("this is info about the region id");
+console.log(region_id_filter, region_id, region_id_filter === region_id);
+
+// Fetch schools on every render, but only if the user is not 'Admin' or 'School'
+useEffect(() => {
+  const fetchSchools = async () => {
+    try {
+      let region_id_filter = parseInt(region_id);
+      console.log("this is info about the region id");
+      console.log(
+        region_id_filter,
+        region_id,
+        region_id_filter === region_id
+      );
+      const { data: school_data, error } = await supabase
+        .from("School_Registration_Table")
+        .select("*")
+        .eq("region_id", region_id_filter);
+
+      if (error) {
+        console.error("Error fetching schools:", error);
+      } else {
+        console.log("this is the school data", school_data);
+        setSchools(school_data);
+      }
+    } catch (error) {
+      console.error("Error fetching schools:", error);
+    }
+  };
+
+  if (who_is_the_user !== "Admin" && who_is_the_user !== "School") {
+    fetchSchools();
+  }
+}, [region_id, who_is_the_user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,9 +82,6 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
     console.log(query);
 
     if (who_is_the_user === "School") {
-      console.log(firstName);
-      console.log(phoneNumber);
-      console.log(email);
       const { data, error } = await supabase
         .from(query)
         .insert([
@@ -94,13 +97,6 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
         setError(true);
       }
     } else if (who_is_the_user === "Admin") {
-      console.log(firstName);
-      console.log(middleName);
-      console.log(lastName);
-      console.log(age);
-      console.log(phoneNumber);
-      console.log(email);
-
       console.log("this is Admin reg");
 
       const { data, error } = await supabase
@@ -120,15 +116,8 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
         setError(true);
       }
     } else {
-      console.log(firstName);
-      console.log(middleName);
-      console.log(lastName);
-      console.log(age);
-      console.log(phoneNumber);
       let school_id = schoolId.split(" ")[1];
-      console.log(school_id);
-      console.log(email);
-      console.log(region_id);
+    ;
 
       const { data, error } = await supabase
         .from(query)
@@ -152,14 +141,8 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
 
     if (!error) {
       // Reset form fields
-      setFirstName("");
-      setMiddleName("");
-      setLastName("");
-      setAge(4);
-      setEmail("");
-      setSchoolId("");
-      setPhoneNumber("");
-    } else {
+      setFirstName("");setMiddleName("");setLastName("");setAge(4);setEmail("");setSchoolId("");setPhoneNumber("");}
+    else {
       console.log(
         "there is an error inserting to the database table",
         `${who_is_the_user}_Registration_Table`
