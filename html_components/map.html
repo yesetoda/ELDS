@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Form</title>
+  <style>
+    .form-field {
+      margin-bottom: 20px;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #loading, #error {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Address Form</h1>
+  <form id="address-form">
+    <div class="form-field">
+      <label for="country">Country</label>
+      <select id="country" name="country" required>
+        <option value="">Select a country</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="region">Region</label>
+      <select id="region" name="region" required>
+        <option value="">Select a region</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="city">City</label>
+      <input type="text" id="city" name="city" required>
+    </div>
+    <div class="form-field">
+      <label for="street">Street</label>
+      <input type="text" id="street" name="street" required>
+    </div>
+    <div class="form-field">
+      <label for="postal-code">Postal Code</label>
+      <input type="text" id="postal-code" name="postal-code" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="loading">Loading...</div>
+  <div id="error">Error fetching data. Please try again later.</div>
+
+  <script>
+    const administrativeDivisionData = {
+      "United States": {
+        "regions": ["California", "New York", "Texas", "Florida", "Illinois"]
+      },
+      "Canada": {
+        "regions": ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba"]
+      },
+      "United Kingdom": {
+        "regions": ["England", "Scotland", "Wales", "Northern Ireland"]
+      },
+      "Australia": {
+        "regions": ["New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania"]
+      },
+      "Ethiopia": {
+        "regions": ["Tigray", "Afar", "Amhara", "Oromia", "Somali", "Benishangul-Gumuz", "SNNPR", "Gambela", "Harari", "Addis Ababa", "Dire Dawa"]
+      }
+    };
+
+    function initializeAddressForm() {
+      const countries = Object.keys(administrativeDivisionData);
+      const countryDropdown = document.getElementById('country');
+
+      countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        countryDropdown.appendChild(option);
+      });
+
+      countryDropdown.addEventListener('change', () => {
+        updateRegionDropdown();
+      });
+    }
+
+    function updateRegionDropdown() {
+      const countryDropdown = document.getElementById('country');
+      const regionDropdown = document.getElementById('region');
+      const selectedCountry = countryDropdown.value;
+
+      regionDropdown.innerHTML = '<option value="">Select a region</option>';
+
+      if (selectedCountry) {
+        const regions = administrativeDivisionData[selectedCountry].regions;
+        regions.forEach(region => {
+          const option = document.createElement('option');
+          option.value = region;
+          option.textContent = region;
+          regionDropdown.appendChild(option);
+        });
+      }
+    }
+
+    initializeAddressForm();
+
+    document.getElementById('address-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const addressData = {
+        country: formData.get('country'),
+        region: formData.get('region'),
+        city: formData.get('city'),
+        street: formData.get('street'),
+        postalCode: formData.get('postal-code')
+      };
+      console.log('Address Data:', addressData);
+      // You can now send the address data to the server or perform other actions
+    });
+  </script>
+</body>
+</html>
