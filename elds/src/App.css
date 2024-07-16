@@ -1,0 +1,141 @@
+.dateTimePicker {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.dateTimePicker .react-datetime-picker__wrapper {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.dateTimePicker .react-datetime-picker__inputGroup__input {
+  width: 100%;
+  text-align: center;
+}
+
+.dateTimePicker .react-datetime-picker__clock {
+  display: none;
+}
+
+.dateTimePicker .react-datetime-picker__calendar {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.dateTimePicker .react-calendar {
+  background: white;
+}
+
+.dateTimePicker .react-calendar__tile {
+  color: #000; /* Ensures all dates are visible */
+}
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button {
+  background: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+input[type="text"],
+/* .dateTimePicker input {
+  width: calc(100% - 20px);
+  padding: 0px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} */
+
+.dateTimePicker {
+  margin: 8px 0;
+  width: 100%;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: left;
+}
+
+li strong {
+  color: #333;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  input[type="text"],
+  .dateTimePicker input {
+    width: calc(100% - 14px);
+    padding: 8px;
+  }
+}
