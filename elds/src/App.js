@@ -8,8 +8,11 @@ import LoginPage from "./login";
 import SigninPage from "./signin"; 
 import HelpAndSupport from "./help_and_support";
 import "./style.css";
+// import "./App.css"
 import USSDInterface from "./ussd_interface";
-
+import CaledarEvent from "./calendar_events_handler";
+import AddEvents from "./add_events_to_calendar";
+import ViewEvents from "./view_events_in_calendar";
 function App() {
   const [who_is_the_user, set_who_is_the_user] = useState("");
   // const [signin_up, set_signin_up] = useState("");
@@ -44,20 +47,26 @@ function App() {
             <li className="nav-item">
               <Link to="/signup">Sign up</Link>
             </li>
+            <li className="nav-item">
+              <Link to="/events">Events</Link>
+            </li>
           </ul>
         </nav>
 
-      <Routes>
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route index="home" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage who_is_the_user={who_is_the_user} set_who_is_the_user={set_who_is_the_user} />} />
-        <Route path="/signup" element={<SigninPage who_is_the_user={who_is_the_user} set_who_is_the_user={set_who_is_the_user} />} />
-        <Route path="/help" element={<HelpAndSupport/>} />
-        <Route path="/ussd" element={<USSDInterface/>} />
-
-      </Routes>
+        <Routes>
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route index="home" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage who_is_the_user={who_is_the_user} set_who_is_the_user={set_who_is_the_user} />} />
+          <Route path="/signup" element={<SigninPage who_is_the_user={who_is_the_user} set_who_is_the_user={set_who_is_the_user} />} />
+          <Route path="/help" element={<HelpAndSupport />} />
+          <Route path="/ussd" element={<USSDInterface />} />
+          <Route path="/events" element={<CaledarEvent />}>
+            <Route path="viewEvents" element={<ViewEvents />} />
+            <Route path="addEvents" element={<AddEvents />} />
+          </Route>
+        </Routes>
     </div>
   </Router>
     </>

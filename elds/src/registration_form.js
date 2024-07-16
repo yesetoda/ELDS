@@ -7,6 +7,9 @@ const RegistrationForm = ({ who_is_the_user, signin_up }) => {
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(4);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [studentId, setStudentId] = useState(0);
+
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(false);
   const [schoolId, setSchoolId] = useState("");
@@ -37,7 +40,8 @@ useEffect(() => {
   fetchRegions();
 }, [region_id_filter]);
 
-let region_id = regionId.split(" ")[1];
+let region_id = regionId.split(" ");
+region_id = parseInt(region_id[region_id.length - 1]);
 console.log(region_id);
 region_id_filter = parseInt(region_id);
 console.log("this is info about the region id");
@@ -55,7 +59,7 @@ useEffect(() => {
         region_id_filter === region_id
       );
       const { data: school_data, error } = await supabase
-        .from("School_Registration_Table")
+        .from("School_Table")
         .select("*")
         .eq("region_id", region_id_filter);
 
@@ -82,14 +86,24 @@ useEffect(() => {
     console.log(query);
 
     if (who_is_the_user === "School") {
+      console.log(query)
+      console.log(
+        firstName,
+        phoneNumber,
+        email,
+        region_id,
+        password
+      )
       const { data, error } = await supabase
         .from(query)
         .insert([
           {
-            [`${who_is_the_user.toLowerCase()}_name`]: firstName,
-            [`${who_is_the_user.toLowerCase()}_phone_number`]: phoneNumber,
-            [`${who_is_the_user.toLowerCase()}_email`]: email,
+            school_name: firstName,
+            phone_number: phoneNumber,
+            email: email,
             region_id: region_id,
+            password: password,
+
           },
         ])
         .select();
@@ -97,40 +111,107 @@ useEffect(() => {
         setError(true);
       }
     } else if (who_is_the_user === "Admin") {
-      console.log("this is Admin reg");
+      console.log(query)
+      console.log(
+        firstName,
+        middleName,
+        lastName,
+        phoneNumber,
+        email,
+        age,
+        password
+      )
 
       const { data, error } = await supabase
         .from(query)
         .insert([
           {
-            [`${who_is_the_user.toLowerCase()}_fname`]: firstName,
-            [`${who_is_the_user.toLowerCase()}_mname`]: middleName,
-            [`${who_is_the_user.toLowerCase()}_lname`]: lastName,
-            [`${who_is_the_user.toLowerCase()}_age`]: age,
-            [`${who_is_the_user.toLowerCase()}_phone_number`]: phoneNumber,
-            [`${who_is_the_user.toLowerCase()}_email`]: email,
+            fname: firstName,
+            mname: middleName,
+            lname: lastName,
+            phone_number: phoneNumber,
+            email: email,
+            age: age,
+            password: password,
           },
         ])
         .select();
       if (error) {
         setError(true);
       }
-    } else {
-      let school_id = schoolId.split(" ")[1];
+    } 
+    else if (who_is_the_user === "Parent"){
+      let school_id = schoolId.split(" ");
+      console.log("Parent")
+      school_id = school_id[school_id.length - 1]
+      console.log(query)
+      console.log(
+        firstName,
+        middleName,
+        lastName,
+        phoneNumber,
+        email,
+        age,
+        password,
+        parseInt(school_id),
+        parseInt(region_id),
+        studentId,
+      )
+
     ;
 
       const { data, error } = await supabase
         .from(query)
         .insert([
           {
-            [`${who_is_the_user.toLowerCase()}_fname`]: firstName,
-            [`${who_is_the_user.toLowerCase()}_mname`]: middleName,
-            [`${who_is_the_user.toLowerCase()}_lname`]: lastName,
-            [`${who_is_the_user.toLowerCase()}_age`]: age,
-            [`${who_is_the_user.toLowerCase()}_phone_number`]: phoneNumber,
-            [`${who_is_the_user.toLowerCase()}_mail`]: email,
-            school_id: school_id,
-            region_id: region_id,
+            fname: firstName,
+            mname: middleName,
+            lname: lastName,
+            age: age,
+            phone_number: phoneNumber,
+            school_id: parseInt(school_id),
+            email: email,
+            region_id: parseInt(region_id),
+            password: password,
+            // student_id: studentId,
+          },
+        ])
+        .select();
+      if (error) {
+        setError(true);
+      }}
+    else {
+      let school_id = schoolId.split(" ");
+      school_id = school_id[school_id.length - 1]
+      console.log(query)
+      console.log(
+        firstName,
+        middleName,
+        lastName,
+        phoneNumber,
+        email,
+        age,
+        password,
+        parseInt(school_id),
+        school_id,
+        parseInt(region_id)
+      )
+
+    ;
+
+      const { data, error } = await supabase
+        .from(query)
+        .insert([
+          {
+            fname: firstName,
+            mname: middleName,
+            lname: lastName,
+            age: age,
+            phone_number: phoneNumber,
+            school_id: parseInt(school_id),
+            email: email,
+            region_id: parseInt(region_id),
+            password: password,
           },
         ])
         .select();
@@ -266,6 +347,27 @@ useEffect(() => {
             </select>
           </div>
         ) : null}
+        {who_is_the_user ==="Parent"?<div>
+          <label htmlFor="studentid">Student Id:</label>
+          <input
+            type="number"
+            id="studentid"
+            value={studentId}
+            onChange={(e) => setStudentId(e.target.value)}
+            required
+          />
+        </div>:null}
+         
+         <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
 
         <button type="submit">Register</button>
       </form>
