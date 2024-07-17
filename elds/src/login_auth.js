@@ -1,32 +1,28 @@
-import supabase from "./supabase";
-import { useState,useEffect} from "react";
+// login_auth.js
+import supabase from './supabase';
 
-function Auth({firstname,middlename,lastname,password,email}){
-    const  [validUser, setValidUser] = useState(false)
+const AuthenticateUser = async (userType, email, password) => {
+  const table = `${userType}_Table`; // Make sure the table name is in lowercase
+  console.log("this is the table name", table);
+  
+  const { data, error } = await supabase
+    .from(table)
+    .select('*')
+    .eq('email', email)
+    .eq('password', password);
 
-    useEffect(() => {
-        const AuthenticateUser = async () => {
-          try {
-            let { data: user, error } = await supabase
-              .from([`${who_is_the_user}_Table`])
-              .select("*")
-              .eq("fname",firstname)
-              .eq("mname",middlename)
-              .eq("lname",lastname)
-              .eq("password",password);
-            if (error) {
-              console.error("Error fetching Regions:", error);
-            } else {
-              setValidUser(true);
-            }
-          } catch (error) {
-            console.error("Error fetching Regions:", error);
-          }
-        };
-      
-        AuthenticateUser();
-      }, []);
-    return <>
-    {validUser?<h1>hello {firstname} {middlename} </h1>:<h1>invalid user</h1>}
-    </>
-}
+  if (error) {
+    console.error('Error fetching user:', error);
+    return false;
+  }
+  console.log("this is the data",data);
+
+
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export default AuthenticateUser;
