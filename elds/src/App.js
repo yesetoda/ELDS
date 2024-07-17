@@ -198,6 +198,7 @@ import ViewEvents from "./view_events_in_calendar";
 import ProfilePage from './validUserPage';
 import InvalidUserPage from './InvalidUserPage';
 import RoleSelection from './RoleSelection';
+import RegistrationForm from "./registration_form";
 
 function App() {
   const [who_is_the_user, set_who_is_the_user] = useState("");
@@ -267,18 +268,18 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route index path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/role-selection-login" element={<RoleSelection setRole={set_who_is_the_user} />} />
-          <Route path="/role-selection-signup" element={<RoleSelection setRole={set_who_is_the_user} />} />
+          <Route path="/role-selection-login" element={<RoleSelection setRole={set_who_is_the_user} type ="login" />} />
+          <Route path="/role-selection-signup" element={<RoleSelection setRole={set_who_is_the_user} type ="signup"/>} />
           <Route path="/student-login" element={<LoginPage who_is_the_user="Student" handleLogin={handleLogin} />} />
           <Route path="/teacher-login" element={<LoginPage who_is_the_user="Teacher" handleLogin={handleLogin} />} />
           <Route path="/parent-login" element={<LoginPage who_is_the_user="Parent" handleLogin={handleLogin} />} />
           <Route path="/admin-login" element={<LoginPage who_is_the_user="Admin" handleLogin={handleLogin} />} />
           <Route path="/school-login" element={<LoginPage who_is_the_user="School" handleLogin={handleLogin} />} />
-          <Route path="/student-signup" element={<SigninPage who_is_the_user="Student" />} />
-          <Route path="/teacher-signup" element={<SigninPage who_is_the_user="Teacher" />} />
-          <Route path="/parent-signup" element={<SigninPage who_is_the_user="Parent" />} />
-          <Route path="/admin-signup" element={<SigninPage who_is_the_user="Admin" />} />
-          <Route path="/school-signup" element={<SigninPage who_is_the_user="School" />} />
+          <Route path="/student-signup" element={<RegistrationForm who_is_the_user="Student" />} />
+          <Route path="/teacher-signup" element={<RegistrationForm who_is_the_user="Teacher" />} />
+          <Route path="/parent-signup" element={<RegistrationForm who_is_the_user="Parent" />} />
+          <Route path="/admin-signup" element={<RegistrationForm who_is_the_user="Admin" />} />
+          <Route path="/school-signup" element={<RegistrationForm who_is_the_user="School" />} />
           <Route path="/profile" element={<ProfilePage who_is_the_user={who_is_the_user} />} />
           <Route path="/invalid-user" element={<InvalidUserPage />} />
           <Route path="/help" element={<HelpAndSupport />} />

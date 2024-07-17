@@ -2,12 +2,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RoleSelection = ({ setRole }) => {
+const RoleSelection = ({ setRole,type }) => {
   const navigate = useNavigate();
 
   const handleSelect = (role) => {
     setRole(role);
-    navigate(`/${role.toLowerCase()}-login`);
+    navigate(`/${role.toLowerCase()}-${type}`);
   };
 
   return (
