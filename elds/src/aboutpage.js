@@ -17,24 +17,38 @@ const AboutPage = () => {
         <div className="team-member">
           <img src="https://via.placeholder.com/150" alt="John Doe" />
           <div>
-            <h3>John Doe</h3>
-            <p>Co-founder and Lead Developer</p>
+            <h3>Yeneineh </h3>
+            <p>Lead Developer</p>
           </div>
         </div>
 
         <div className="team-member">
           <img src="https://via.placeholder.com/150" alt="Jane Smith" />
           <div>
-            <h3>Jane Smith</h3>
-            <p>Co-founder and Lead Designer</p>
+            <h3>Wondemeneh </h3>
+            <p>Lead Designer and Team Leader</p>
           </div>
         </div>
 
         <div className="team-member">
           <img src="https://via.placeholder.com/150" alt="Bob Johnson" />
           <div>
-            <h3>Bob Johnson</h3>
-            <p>Senior Developer</p>
+            <h3>Dureti </h3>
+            <p>Mobile app deveoper</p>
+          </div>
+        </div>
+        <div className="team-member">
+          <img src="https://via.placeholder.com/150" alt="Bob Johnson" />
+          <div>
+            <h3>Yohanes </h3>
+            <p>React deveoper</p>
+          </div>
+        </div>
+        <div className="team-member">
+          <img src="https://via.placeholder.com/150" alt="Bob Johnson" />
+          <div>
+            <h3>Samuel </h3>
+            <p>Backend deveoper</p>
           </div>
         </div>
       </div>
